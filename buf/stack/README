@@ -1,0 +1,2 @@
+gcc exploit.c -o expl -std=c99
+./expl | ./target
